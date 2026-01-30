@@ -13,8 +13,8 @@
     Skip deleting template files after setup
 
 .EXAMPLE
-    .\setup.ps1 -ProjectName "MyApp"
-    .\setup.ps1 -ProjectName "MyApp" -NoCleanup
+    .\setup-project.ps1 -ProjectName "MyApp"
+    .\setup-project.ps1 -ProjectName "MyApp" -NoCleanup
 #>
 
 param(
@@ -124,7 +124,7 @@ if (-not $NoCleanup) {
         Write-Success "Removed TEMPLATE.md"
     }
 
-    Write-Warning "Note: Run 'Remove-Item setup.ps1, setup.sh' to remove setup scripts"
+    Write-Warning "Note: Run 'Remove-Item setup-project.ps1, setup-project.sh' to remove setup scripts"
 }
 
 Write-Host ""

@@ -5,9 +5,9 @@
 # Namespaces in code files are NOT changed - they remain as Deneblab.BlazorDaisy.
 #
 # Usage:
-#   ./setup.sh                    # Interactive mode
-#   ./setup.sh MyApp              # With project name
-#   ./setup.sh --no-cleanup MyApp # Skip cleanup of template files
+#   ./setup-project.sh                    # Interactive mode
+#   ./setup-project.sh MyApp              # With project name
+#   ./setup-project.sh --no-cleanup MyApp # Skip cleanup of template files
 
 set -e
 
@@ -142,7 +142,7 @@ if [ "$NO_CLEANUP" = false ]; then
         success "Removed TEMPLATE.md"
     fi
 
-    warn "Note: Run 'rm setup.ps1 setup.sh' to remove setup scripts"
+    warn "Note: Run 'rm setup-project.ps1 setup-project.sh' to remove setup scripts"
 fi
 
 echo ""

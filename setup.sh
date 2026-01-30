@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Setup script to rename this Blazor template project to your own project name.
+# Renames the project folder and .csproj file.
 # Namespaces in code files are NOT changed - they remain as Deneblab.BlazorDaisy.
 #
 # Usage:
@@ -64,7 +65,6 @@ if [ -z "$PROJECT_NAME" ]; then
     echo -e "${MAGENTA}=== Blazor DaisyUI Template Setup ===${NC}"
     echo ""
     echo -e "${YELLOW}This script will rename:${NC}"
-    echo "  - Solution file"
     echo "  - Project folder"
     echo "  - .csproj file"
     echo ""
@@ -124,25 +124,6 @@ NEW_FOLDER="$SCRIPT_DIR/src/$PROJECT_NAME"
 if [ -d "$OLD_FOLDER" ]; then
     mv "$OLD_FOLDER" "$NEW_FOLDER"
     success "Renamed folder to $PROJECT_NAME"
-fi
-
-# Step 4: Rename solution file
-step "Renaming solution file..."
-if [ -f "$SLN_PATH" ]; then
-    mv "$SLN_PATH" "$SCRIPT_DIR/src/$PROJECT_NAME.sln"
-    success "Renamed to $PROJECT_NAME.sln"
-fi
-
-# Step 5: Update README.md
-step "Updating README.md..."
-README_PATH="$SCRIPT_DIR/README.md"
-if [ -f "$README_PATH" ]; then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/$OLD_NAME/$PROJECT_NAME/g" "$README_PATH"
-    else
-        sed -i "s/$OLD_NAME/$PROJECT_NAME/g" "$README_PATH"
-    fi
-    success "Updated README.md"
 fi
 
 # Cleanup

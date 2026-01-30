@@ -3,7 +3,7 @@
     Setup script to rename this Blazor template project to your own project name.
 
 .DESCRIPTION
-    This script renames the solution, project folder, and .csproj file.
+    This script renames the project folder and .csproj file.
     Namespaces in code files are NOT changed - they remain as Deneblab.BlazorDaisy.
 
 .PARAMETER ProjectName
@@ -49,7 +49,6 @@ if (-not $ProjectName) {
     Write-Host "=== Blazor DaisyUI Template Setup ===" -ForegroundColor Magenta
     Write-Host ""
     Write-Host "This script will rename:" -ForegroundColor Yellow
-    Write-Host "  - Solution file"
     Write-Host "  - Project folder"
     Write-Host "  - .csproj file"
     Write-Host ""
@@ -107,23 +106,6 @@ $newFolderPath = Join-Path $ScriptDir "src\$ProjectName"
 if (Test-Path $oldFolderPath) {
     Rename-Item -Path $oldFolderPath -NewName $ProjectName
     Write-Success "Renamed folder to $ProjectName"
-}
-
-# Step 4: Rename solution file
-Write-Step "Renaming solution file..."
-if (Test-Path $slnPath) {
-    Rename-Item -Path $slnPath -NewName "$ProjectName.sln"
-    Write-Success "Renamed to $ProjectName.sln"
-}
-
-# Step 5: Update README.md project references
-Write-Step "Updating README.md..."
-$readmePath = Join-Path $ScriptDir "README.md"
-if (Test-Path $readmePath) {
-    $content = Get-Content $readmePath -Raw
-    $newContent = $content -replace [regex]::Escape($OldName), $ProjectName
-    Set-Content -Path $readmePath -Value $newContent -NoNewline
-    Write-Success "Updated README.md"
 }
 
 # Cleanup

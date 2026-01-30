@@ -1,0 +1,35 @@
+@page "/"
+@page "/dashboard"
+@namespace Deneblab.BlazorDaisy.Areas.Dashboard.Views.Pages
+@using Deneblab.BlazorDaisy.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@attribute [Authorize]
+
+<PageTitle>Dashboard</PageTitle>
+
+<PageHeader
+    Title="@($"Hello, {UserEmail}")"
+    Subtitle="Overview of your application" />
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthStateTask { get; set; }
+
+    private string UserEmail { get; set; } = "User";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthStateTask != null)
+        {
+            var authState = await AuthStateTask;
+            var user = authState.User;
+
+            UserEmail = user.FindFirst(ClaimTypes.Email)?.Value
+                ?? user.FindFirst("email")?.Value
+                ?? user.Identity?.Name
+                ?? "User";
+        }
+    }
+}
+

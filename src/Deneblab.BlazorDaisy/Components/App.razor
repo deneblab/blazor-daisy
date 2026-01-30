@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <HeadOutlet />
+    <script>
+        // Theme manager - inline to prevent flash and ensure availability before Blazor
+        window.themeManager = {
+            storageKey: 'daisy-theme',
+            getTheme: function() {
+                return localStorage.getItem(this.storageKey) || 'light';
+            },
+            setTheme: function(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem(this.storageKey, theme);
+            },
+            toggle: function() {
+                var current = this.getTheme();
+                var next = current === 'dark' ? 'light' : 'dark';
+                this.setTheme(next);
+            },
+            apply: function() {
+                var theme = this.getTheme();
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        };
+        // Apply theme immediately (before body renders)
+        themeManager.apply();
+
+        // Nav state manager - inline to prevent flash
+        window.navManager = {
+            storageKey: 'daisy-nav-collapsed',
+            isCollapsed: function() {
+                return localStorage.getItem(this.storageKey) === 'true';
+            },
+            setCollapsed: function(collapsed) {
+                localStorage.setItem(this.storageKey, collapsed ? 'true' : 'false');
+                document.documentElement.setAttribute('data-nav-collapsed', collapsed ? 'true' : 'false');
+            },
+            toggle: function() {
+                var collapsed = !this.isCollapsed();
+                this.setCollapsed(collapsed);
+                return collapsed;
+            },
+            apply: function() {
+                var collapsed = this.isCollapsed();
+                document.documentElement.setAttribute('data-nav-collapsed', collapsed ? 'true' : 'false');
+            }
+        };
+        navManager.apply();
+    </script>
+</head>
+
+<body>
+    <Routes />
+    <script src="_framework/blazor.web.js"></script>
+    <script>
+        // Clear unwanted focus after Blazor hydration
+        function clearUnwantedFocus() {
+            if (document.activeElement && document.activeElement !== document.body) {
+                var tag = document.activeElement.tagName.toLowerCase();
+                if (tag !== 'input' && tag !== 'textarea' && tag !== 'select' && tag !== 'button' && tag !== 'a') {
+                    document.activeElement.blur();
+                }
+            }
+        }
+
+        // Re-apply theme and nav state after Blazor enhanced navigation
+        Blazor.addEventListener('enhancedload', function() {
+            themeManager.apply();
+            navManager.apply();
+            setTimeout(clearUnwantedFocus, 0);
+        });
+
+        // Clear focus after initial Blazor start
+        setTimeout(clearUnwantedFocus, 100);
+    </script>
+</body>
+
+</html>

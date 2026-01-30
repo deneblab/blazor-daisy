@@ -1,0 +1,17 @@
+@namespace Deneblab.BlazorDaisy.Components.Layout
+
+<div class="mb-6">
+    <h1 class="text-3xl font-semibold text-base-content">@Title</h1>
+    @if (!string.IsNullOrEmpty(Subtitle))
+    {
+        <p class="text-base-content/60 mt-1">@Subtitle</p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string? Subtitle { get; set; }
+}

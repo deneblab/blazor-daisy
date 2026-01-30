@@ -1,0 +1,57 @@
+@page "/example/settings/security"
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Pages.Settings
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<PageTitle>Security Settings</PageTitle>
+
+<PageHeader
+    Title="Security Settings"
+    Subtitle="Password, two-factor authentication, and sessions" />
+
+<div class="flex flex-col gap-4">
+    <div class="card bg-base-200">
+        <div class="card-body">
+            <h2 class="card-title">Change Password</h2>
+
+            <div class="form-control w-full max-w-xs">
+                <label class="label">
+                    <span class="label-text">Current password</span>
+                </label>
+                <input type="password" class="input input-bordered w-full max-w-xs" />
+            </div>
+
+            <div class="form-control w-full max-w-xs">
+                <label class="label">
+                    <span class="label-text">New password</span>
+                </label>
+                <input type="password" class="input input-bordered w-full max-w-xs" />
+            </div>
+
+            <div class="form-control w-full max-w-xs">
+                <label class="label">
+                    <span class="label-text">Confirm new password</span>
+                </label>
+                <input type="password" class="input input-bordered w-full max-w-xs" />
+            </div>
+
+            <div class="card-actions justify-end mt-4">
+                <button class="btn btn-primary">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-base-200">
+        <div class="card-body">
+            <h2 class="card-title">Two-Factor Authentication</h2>
+            <p class="text-base-content/70">Add an extra layer of security to your account</p>
+
+            <div class="form-control">
+                <label class="label cursor-pointer">
+                    <span class="label-text">Enable 2FA</span>
+                    <input type="checkbox" class="toggle toggle-primary" />
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,141 @@
+@page "/example/snackbar"
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Pages
+@rendermode InteractiveServer
+@using Deneblab.BlazorDaisy.Components.Layout
+@using Deneblab.BlazorDaisy.Components.Snackbar
+@inject ISnackbarService Snackbar
+
+<PageTitle>Snackbar Examples</PageTitle>
+
+<PageHeader
+    Title="Snackbar Examples"
+    Subtitle="Interactive examples demonstrating the Snackbar notification system" />
+
+<div class="space-y-6">
+    <!-- Basic Usage -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Basic Usage</h2>
+            <p class="text-base-content/70">Click buttons to trigger different snackbar types.</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button class="btn btn-success" @onclick="ShowSuccess">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    Success
+                </button>
+                <button class="btn btn-error" @onclick="ShowError">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Error
+                </button>
+                <button class="btn btn-warning" @onclick="ShowWarning">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Warning
+                </button>
+                <button class="btn btn-info" @onclick="ShowInfo">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    Info
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Duration -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Custom Duration</h2>
+            <p class="text-base-content/70">Snackbars with different display durations.</p>
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button class="btn btn-outline btn-sm" @onclick="() => ShowWithDuration(1000)">1 second</button>
+                <button class="btn btn-outline btn-sm" @onclick="() => ShowWithDuration(3000)">3 seconds</button>
+                <button class="btn btn-outline btn-sm" @onclick="() => ShowWithDuration(5000)">5 seconds</button>
+                <button class="btn btn-outline btn-sm" @onclick="() => ShowWithDuration(10000)">10 seconds</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Message -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Custom Message</h2>
+            <p class="text-base-content/70">Enter your own message and select severity.</p>
+            <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                <input type="text" @bind="customMessage" placeholder="Enter message..."
+                       class="input input-bordered flex-1" />
+                <select @bind="customSeverity" class="select select-bordered w-full sm:w-40">
+                    <option value="Info">Info</option>
+                    <option value="Success">Success</option>
+                    <option value="Warning">Warning</option>
+                    <option value="Error">Error</option>
+                </select>
+                <button class="btn btn-primary" @onclick="ShowCustom">Show</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Code Example</h2>
+            <p class="text-base-content/70">How to use the Snackbar service in your components.</p>
+            <div class="mockup-code mt-4">
+                <pre data-prefix="1"><code>@@inject ISnackbarService Snackbar</code></pre>
+                <pre data-prefix="2"><code></code></pre>
+                <pre data-prefix="3" class="text-success"><code>Snackbar.Success("Operation completed!");</code></pre>
+                <pre data-prefix="4" class="text-error"><code>Snackbar.Error("Something went wrong.");</code></pre>
+                <pre data-prefix="5" class="text-warning"><code>Snackbar.Warning("Please check your input.");</code></pre>
+                <pre data-prefix="6" class="text-info"><code>Snackbar.Info("Here's some information.");</code></pre>
+                <pre data-prefix="7"><code></code></pre>
+                <pre data-prefix="8"><code>// Custom duration (milliseconds)</code></pre>
+                <pre data-prefix="9"><code>Snackbar.Show("Message", Severity.Info, 5000);</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Navigation -->
+    <div class="flex justify-end">
+        <a href="/example" class="btn btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Back to Example
+        </a>
+    </div>
+</div>
+
+@code {
+    private string customMessage = "";
+    private string customSeverity = "Info";
+
+    private void ShowSuccess() => Snackbar.Success("Operation completed successfully!");
+    private void ShowError() => Snackbar.Error("An error occurred. Please try again.");
+    private void ShowWarning() => Snackbar.Warning("Please review your input.");
+    private void ShowInfo() => Snackbar.Info("Here's some helpful information.");
+
+    private void ShowWithDuration(int ms) => Snackbar.Show($"This message will disappear in {ms / 1000} seconds", Severity.Info, ms);
+
+    private void ShowCustom()
+    {
+        if (string.IsNullOrWhiteSpace(customMessage))
+        {
+            Snackbar.Warning("Please enter a message first.");
+            return;
+        }
+
+        var severity = customSeverity switch
+        {
+            "Success" => Severity.Success,
+            "Warning" => Severity.Warning,
+            "Error" => Severity.Error,
+            _ => Severity.Info
+        };
+
+        Snackbar.Show(customMessage, severity);
+    }
+}

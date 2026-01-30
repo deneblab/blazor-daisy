@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.menu a.active {
+  @apply bg-base-300;
+}
+
+/* Prevent text selection on UI elements during Blazor hydration */
+h1, h2, h3, .navbar, .nav-sidebar {
+  user-select: none;
+}
+
+/* Prevent focus ring on non-interactive elements */
+h1, h2, h3, p, div:not([tabindex]), span {
+  outline: none;
+}
+h1:focus, h2:focus, h3:focus, p:focus {
+  outline: none;
+}
+
+/* Nav sidebar - CSS-based initial state to prevent flash */
+.nav-sidebar {
+  width: 12rem; /* w-48 default */
+}
+html[data-nav-collapsed="true"] .nav-sidebar {
+  width: 4rem; /* w-16 collapsed */
+}
+/* Hide text labels when collapsed (before Blazor hydrates) */
+html[data-nav-collapsed="true"] .nav-sidebar .nav-label {
+  display: none;
+}
+
+/* Snackbar animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}

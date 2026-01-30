@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>Deneblab.BlazorDaisy</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.*" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Template\" />
+  </ItemGroup>
+
+  <!-- Auto-build Tailwind CSS -->
+  <Target Name="NpmInstall" BeforeTargets="NpmBuildCss" Condition="!Exists('node_modules')">
+    <Exec Command="npm install" WorkingDirectory="$(ProjectDir)" />
+  </Target>
+
+  <Target Name="NpmBuildCss" BeforeTargets="Build">
+    <Exec Command="npm run css:build" WorkingDirectory="$(ProjectDir)" />
+  </Target>
+
+</Project>

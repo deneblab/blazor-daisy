@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project Template Configuration",
+  "description": "One-time setup configuration for new projects based on this template",
+
+  "project": {
+    "name": "MyNewProject",
+    "displayName": "My New Project",
+    "description": "A new project based on the Blazor template",
+    "namespace": "MyNewProject",
+    "version": "0.0.1"
+  },
+
+  "authentication": {
+    "mode": "Cookie",
+    "modes": {
+      "None": "No authentication - all pages are public",
+      "Cookie": "Cookie-based authentication with login page",
+      "OAuth": "OAuth 2.0 via Auth0 or similar provider"
+    },
+    "oauth": {
+      "provider": "Auth0",
+      "domain": "",
+      "clientId": "",
+      "clientSecret": ""
+    }
+  },
+
+  "features": {
+    "dashboard": {
+      "enabled": true,
+      "description": "Main dashboard area with overview page"
+    },
+    "settings": {
+      "enabled": true,
+      "description": "User settings area with General, Profile, Security pages"
+    },
+    "api": {
+      "enabled": false,
+      "description": "REST API endpoints alongside Blazor"
+    }
+  },
+
+  "theme": {
+    "default": "light",
+    "available": ["light", "dark"]
+  },
+
+  "paths": {
+    "loginPath": "/login",
+    "accessDeniedPath": "/access-denied",
+    "defaultRedirectAfterLogin": "/dashboard",
+    "defaultRedirectAfterLogout": "/"
+  },
+
+  "instructions": {
+    "step1": "Update 'project' section with your project details",
+    "step2": "Choose authentication mode in 'authentication.mode'",
+    "step3": "Enable/disable features in 'features' section",
+    "step4": "Run the setup script or manually rename namespaces",
+    "step5": "Delete this file after setup is complete"
+  }
+}

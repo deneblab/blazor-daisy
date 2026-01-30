@@ -1,0 +1,66 @@
+@*
+    TEMPLATE: Blank Area Example
+
+    This is a template for creating new feature areas.
+    Copy this entire folder and rename to create a new area.
+
+    Steps to create a new area:
+    1. Copy Areas/Example to Areas/YourFeature
+    2. Update the namespace in this file and _Imports.razor
+    3. Update the @page route
+    4. Add menu item in Program.cs RegisterDefaultMenuItems()
+    5. Optionally add a feature flag in appsettings.json
+*@
+
+@*
+    TEMPLATE: Blank Area Example
+
+    This is a template for creating new feature areas.
+    Copy this entire folder and rename to create a new area.
+
+    Steps to create a new area:
+    1. Copy Areas/Example to Areas/YourFeature
+    2. Update the namespace in this file and _Imports.razor
+    3. Update the @page route
+    4. Add menu item in Program.cs RegisterDefaultMenuItems()
+    5. Optionally add a feature flag in appsettings.json
+*@
+
+@page "/example"
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Pages
+@using Deneblab.BlazorDaisy.Components.Layout
+
+<PageTitle>Example</PageTitle>
+
+<PageHeader
+    Title="Example Area"
+    Subtitle="This is a blank template for creating new feature areas" />
+
+<div class="card bg-base-200 shadow-xl">
+    <div class="card-body">
+        <h2 class="card-title">Getting Started</h2>
+        <p>This is a blank area template. Replace this content with your feature implementation.</p>
+
+        <div class="divider"></div>
+
+        <h3 class="font-semibold">Quick Tips:</h3>
+        <ul class="list-disc list-inside space-y-2">
+            <li>Use <code class="badge badge-ghost">@@page "/your-route"</code> to define the URL</li>
+            <li>Add <code class="badge badge-ghost">@@attribute [Authorize]</code> to require authentication</li>
+            <li>Use DaisyUI components for consistent styling</li>
+            <li>Register menu items in <code class="badge badge-ghost">Program.cs</code></li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <h3 class="font-semibold">Examples:</h3>
+        <div class="mt-2 space-y-1">
+            <div><a href="/example/snackbar" class="link link-primary">/example/snackbar</a></div>
+            <div><a href="/example/settings" class="link link-primary">/example/settings</a></div>
+        </div>
+
+        <div class="card-actions justify-end mt-4">
+            <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+    </div>
+</div>

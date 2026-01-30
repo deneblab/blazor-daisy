@@ -1,0 +1,63 @@
+@page "/login"
+@using Deneblab.BlazorDaisy.Areas.Template.App
+@namespace Deneblab.BlazorDaisy.Components.Pages
+@inject DaisyAppRegistry Registry
+@inject IConfiguration Configuration
+
+<PageTitle>@AppName</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @* Server-side redirect for authenticated users - no JS needed *@
+        <HeadContent>
+            <meta http-equiv="refresh" content="0;url=/dashboard" />
+        </HeadContent>
+        <div class="min-h-screen flex items-center justify-center">
+            <span class="loading loading-spinner loading-lg"></span>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="card w-[500px] h-[500px] bg-base-100 shadow-xl">
+                <div class="card-body flex flex-col items-center justify-between py-8">
+                    @* App Title Section *@
+                    <div class="text-center">
+                        <div class="flex flex-col items-center gap-2">
+                            @* App Logo/Icon *@
+                            <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                            </div>
+                            <h1 class="text-2xl font-bold">@AppName</h1>
+                            <p class="text-sm text-base-content/50">Version: @AppVersion</p>
+                        </div>
+                    </div>
+
+                    @* Spacer *@
+                    <div class="flex-1"></div>
+
+                    @* Buttons Section *@
+                    <div class="flex flex-col gap-3 w-full max-w-xs">
+                        <a href="/auth/login" class="btn btn-primary btn-outline w-full">
+                            Log in
+                        </a>
+
+                        @if (ShowGuestLogin)
+                        {
+                            <a href="/dev/guest-login" class="btn btn-secondary btn-outline w-full">
+                                Guest Login (Dev)
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private string AppName => Registry.Config.AppName;
+    private string AppVersion => Registry.Version.SemVer;
+    private bool ShowGuestLogin => Configuration.GetValue<bool>("Authentication:AllowGuestMode");
+}

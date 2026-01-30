@@ -1,0 +1,15 @@
+@inherits LayoutComponentBase
+@namespace Deneblab.BlazorDaisy.Components.Layout
+@using Deneblab.BlazorDaisy.Components.Snackbar
+
+<div class="min-h-screen flex flex-col">
+    <TopBar />
+    <div class="flex flex-1">
+        <NavMenu />
+        <main class="flex-1 p-6 bg-base-100">
+            @Body
+        </main>
+    </div>
+</div>
+
+<SnackbarProvider />

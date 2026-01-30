@@ -1,0 +1,42 @@
+@page "/example/settings/general"
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Pages.Settings
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<PageTitle>General Settings</PageTitle>
+
+<PageHeader
+    Title="General Settings"
+    Subtitle="Application preferences and display settings" />
+
+<div class="card bg-base-200">
+    <div class="card-body">
+        <h2 class="card-title">Display</h2>
+
+        <div class="form-control">
+            <label class="label cursor-pointer">
+                <span class="label-text">Dark mode</span>
+                <input type="checkbox" class="toggle" />
+            </label>
+        </div>
+
+        <div class="form-control">
+            <label class="label cursor-pointer">
+                <span class="label-text">Compact view</span>
+                <input type="checkbox" class="toggle" />
+            </label>
+        </div>
+
+        <div class="form-control w-full max-w-xs mt-4">
+            <label class="label">
+                <span class="label-text">Language</span>
+            </label>
+            <select class="select select-bordered">
+                <option selected>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+            </select>
+        </div>
+    </div>
+</div>

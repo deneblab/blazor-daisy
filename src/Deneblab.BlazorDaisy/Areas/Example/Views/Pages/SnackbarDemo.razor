@@ -1,0 +1,18 @@
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Pages
+@rendermode InteractiveServer
+@using Deneblab.BlazorDaisy.Components.Snackbar
+@inject ISnackbarService Snackbar
+
+<div class="flex flex-wrap gap-2">
+    <button class="btn btn-success btn-sm" @onclick="ShowSuccess">Success</button>
+    <button class="btn btn-error btn-sm" @onclick="ShowError">Error</button>
+    <button class="btn btn-warning btn-sm" @onclick="ShowWarning">Warning</button>
+    <button class="btn btn-info btn-sm" @onclick="ShowInfo">Info</button>
+</div>
+
+@code {
+    private void ShowSuccess() => Snackbar.Success("Operation completed successfully!");
+    private void ShowError() => Snackbar.Error("An error occurred. Please try again.");
+    private void ShowWarning() => Snackbar.Warning("Please review your input.");
+    private void ShowInfo() => Snackbar.Info("Here's some helpful information.");
+}

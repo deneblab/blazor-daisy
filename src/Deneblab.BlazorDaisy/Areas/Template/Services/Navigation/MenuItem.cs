@@ -1,4 +1,8 @@
-namespace Deneblab.BlazorDaisy.Services.Navigation;
+using System;
+using System.Collections.Generic;
+#pragma warning disable IDE0130
+
+namespace Deneblab.BlazorDaisy.Navigation;
 
 /// <summary>
 /// Represents a menu item in the navigation sidebar.

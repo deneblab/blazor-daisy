@@ -1,4 +1,5 @@
-namespace Deneblab.BlazorDaisy.Services.Auth;
+#pragma warning disable IDE0130
+namespace Deneblab.BlazorDaisy.Auth;
 
 /// <summary>
 /// Authentication modes supported by the template.

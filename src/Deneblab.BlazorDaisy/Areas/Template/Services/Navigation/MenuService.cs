@@ -1,4 +1,10 @@
-namespace Deneblab.BlazorDaisy.Services.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Deneblab.BlazorDaisy.Navigation;
+#pragma warning disable IDE0130
+
+namespace Deneblab.BlazorDaisy.Navigation;
 
 /// <summary>
 /// Default implementation of the menu service.

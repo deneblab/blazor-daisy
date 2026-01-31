@@ -1,4 +1,9 @@
-namespace Deneblab.BlazorDaisy.Services.Auth;
+using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+#pragma warning disable IDE0130
+
+namespace Deneblab.BlazorDaisy.Auth;
 
 /// <summary>
 /// Helper class for reading and validating authentication configuration.

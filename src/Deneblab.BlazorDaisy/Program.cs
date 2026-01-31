@@ -1,14 +1,23 @@
+
+
+using System;
+using System.Collections.Generic;
 using Deneblab.BlazorDaisy.Areas.Template.App;
+using Deneblab.BlazorDaisy.Auth;
 using Deneblab.BlazorDaisy.Components;
+using Deneblab.BlazorDaisy.Components.Snackbar;
 using Deneblab.BlazorDaisy.Infrastructure.Logging;
 using Deneblab.BlazorDaisy.Infrastructure.Middleware;
-using Deneblab.BlazorDaisy.Services.Auth;
-using Deneblab.BlazorDaisy.Services.Navigation;
-using Deneblab.BlazorDaisy.Components.Snackbar;
+using Deneblab.BlazorDaisy.Navigation;
 using Deneblab.SimpleVersion;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Deneblab.BlazorDaisy;

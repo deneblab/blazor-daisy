@@ -1,0 +1,58 @@
+@namespace Deneblab.BlazorDaisy.Components.Popover
+@rendermode InteractiveServer
+@inject IPopoverService PopoverService
+@implements IDisposable
+
+@foreach (var popover in _popovers)
+{
+    <Popover
+        Reference="popover"
+        IsOpen="true"
+        OnClose="() => HandleClose(popover.Id)" />
+}
+
+@code {
+    private readonly List<PopoverReference> _popovers = new();
+
+    protected override void OnInitialized()
+    {
+        PopoverService.OnShow += HandleShow;
+        PopoverService.OnClose += HandleCloseById;
+    }
+
+    private void HandleShow(PopoverReference reference)
+    {
+        _popovers.Add(reference);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleCloseById(Guid popoverId)
+    {
+        if (popoverId == Guid.Empty)
+        {
+            // Close all
+            _popovers.Clear();
+        }
+        else
+        {
+            HandleClose(popoverId);
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleClose(Guid popoverId)
+    {
+        var popover = _popovers.FirstOrDefault(p => p.Id == popoverId);
+        if (popover != null)
+        {
+            _popovers.Remove(popover);
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        PopoverService.OnShow -= HandleShow;
+        PopoverService.OnClose -= HandleCloseById;
+    }
+}

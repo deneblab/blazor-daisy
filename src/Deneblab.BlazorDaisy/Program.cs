@@ -7,6 +7,7 @@ using Deneblab.BlazorDaisy.Auth;
 using Deneblab.BlazorDaisy.Components;
 using Deneblab.BlazorDaisy.Components.Snackbar;
 using Deneblab.BlazorDaisy.Components.Dialog;
+using Deneblab.BlazorDaisy.Components.Popover;
 using Deneblab.BlazorDaisy.Infrastructure.Logging;
 using Deneblab.BlazorDaisy.Infrastructure.Middleware;
 using Deneblab.BlazorDaisy.Navigation;
@@ -60,6 +61,9 @@ public class Program
 
         // Dialog service (scoped per circuit)
         builder.Services.AddScoped<IDialogService, DialogService>();
+
+        // Popover service (scoped per circuit)
+        builder.Services.AddScoped<IPopoverService, PopoverService>();
 
         // Configure authentication
         ConfigureAuthentication(builder);

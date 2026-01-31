@@ -1,0 +1,153 @@
+@namespace Deneblab.BlazorDaisy.Components.Popover
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+@if (IsOpen)
+{
+    <div class="fixed z-50 @Reference.Options.Class"
+         style="@_positionStyle @Reference.Options.Style"
+         @onclick:stopPropagation="true">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body p-4">
+                @Reference.Content
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public PopoverReference Reference { get; set; } = default!;
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private string _positionStyle = "";
+    private DotNetObjectReference<Popover>? _objRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && IsOpen)
+        {
+            await UpdatePosition();
+
+            if (Reference.Options.CloseOnClickOutside)
+            {
+                _objRef = DotNetObjectReference.Create(this);
+                await JS.InvokeVoidAsync("eval", $@"
+                    window.__popover_{Reference.Id} = (e) => {{
+                        const popover = document.querySelector('[data-popover-id=""{Reference.Id}""]');
+                        if (popover && !popover.contains(e.target)) {{
+                            DotNet.invokeMethodAsync('Deneblab.BlazorDaisy', 'ClosePopover', '{Reference.Id}');
+                        }}
+                    }};
+                    setTimeout(() => document.addEventListener('click', window.__popover_{Reference.Id}), 0);
+                ");
+            }
+        }
+    }
+
+    private async Task UpdatePosition()
+    {
+        try
+        {
+            var rect = await JS.InvokeAsync<BoundingClientRect>("eval", $@"
+                (function() {{
+                    const el = document.querySelector('[data-popover-anchor=""{Reference.Id}""]');
+                    if (!el) return null;
+                    const rect = el.getBoundingClientRect();
+                    return {{ top: rect.top, left: rect.left, width: rect.width, height: rect.height }};
+                }})()
+            ");
+
+            if (rect != null)
+            {
+                var (top, left) = CalculatePosition(rect);
+                _positionStyle = $"top: {top}px; left: {left}px;";
+                StateHasChanged();
+            }
+        }
+        catch
+        {
+            // Element not found, use default position
+        }
+    }
+
+    private (double top, double left) CalculatePosition(BoundingClientRect rect)
+    {
+        double top = rect.Top;
+        double left = rect.Left;
+
+        // Calculate anchor point
+        switch (Reference.Options.AnchorOrigin)
+        {
+            case Origin.TopLeft:
+                break;
+            case Origin.TopCenter:
+                left += rect.Width / 2;
+                break;
+            case Origin.TopRight:
+                left += rect.Width;
+                break;
+            case Origin.CenterLeft:
+                top += rect.Height / 2;
+                break;
+            case Origin.CenterCenter:
+                top += rect.Height / 2;
+                left += rect.Width / 2;
+                break;
+            case Origin.CenterRight:
+                top += rect.Height / 2;
+                left += rect.Width;
+                break;
+            case Origin.BottomLeft:
+                top += rect.Height;
+                break;
+            case Origin.BottomCenter:
+                top += rect.Height;
+                left += rect.Width / 2;
+                break;
+            case Origin.BottomRight:
+                top += rect.Height;
+                left += rect.Width;
+                break;
+        }
+
+        return (top, left);
+    }
+
+    [JSInvokable("ClosePopover")]
+    public async Task CloseFromJs()
+    {
+        await OnClose.InvokeAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_objRef != null)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("eval", $@"
+                    if (window.__popover_{Reference.Id}) {{
+                        document.removeEventListener('click', window.__popover_{Reference.Id});
+                        delete window.__popover_{Reference.Id};
+                    }}
+                ");
+            }
+            catch { }
+            _objRef.Dispose();
+        }
+    }
+
+    private class BoundingClientRect
+    {
+        public double Top { get; set; }
+        public double Left { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+    }
+}

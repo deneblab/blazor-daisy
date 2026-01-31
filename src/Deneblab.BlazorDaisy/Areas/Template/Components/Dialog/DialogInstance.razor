@@ -1,33 +1,36 @@
 @namespace Deneblab.BlazorDaisy.Components.Dialog
 
 <CascadingValue Value="this">
-    <div class="modal @(IsOpen ? "modal-open" : "") @GetPositionClass()" @onkeydown="HandleKeyDown" tabindex="-1">
-        <div class="modal-box @Reference.Options.DialogClass @GetMaxWidthClass()">
-            @if (!string.IsNullOrEmpty(Reference.Title) || Reference.Options.ShowCloseButton)
-            {
-                <div class="flex justify-between items-center mb-4">
-                    @if (!string.IsNullOrEmpty(Reference.Title))
-                    {
-                        <h3 class="font-bold text-lg">@Reference.Title</h3>
-                    }
-                    else
-                    {
-                        <span></span>
-                    }
-                    @if (Reference.Options.ShowCloseButton)
-                    {
-                        <button class="btn btn-sm btn-circle btn-ghost" @onclick="() => Close(DialogResult.Cancel())">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    }
-                </div>
-            }
-            <DynamicComponent Type="Reference.DialogType" Parameters="GetComponentParameters()" />
+    @if (IsOpen)
+    {
+        <div class="fixed inset-0 z-50 flex @GetPositionClass() overflow-y-auto" @onkeydown="HandleKeyDown" tabindex="-1">
+            <div class="modal-backdrop fixed inset-0 bg-black/50 @Reference.Options.BackdropClass" @onclick="HandleBackdropClick"></div>
+            <div class="modal-box relative z-10 m-auto @Reference.Options.DialogClass @GetMaxWidthClass()">
+                @if (!string.IsNullOrEmpty(Reference.Title) || Reference.Options.ShowCloseButton)
+                {
+                    <div class="flex justify-between items-center mb-4">
+                        @if (!string.IsNullOrEmpty(Reference.Title))
+                        {
+                            <h3 class="font-bold text-lg">@Reference.Title</h3>
+                        }
+                        else
+                        {
+                            <span></span>
+                        }
+                        @if (Reference.Options.ShowCloseButton)
+                        {
+                            <button class="btn btn-sm btn-circle btn-ghost" @onclick="() => Close(DialogResult.Cancel())">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        }
+                    </div>
+                }
+                <DynamicComponent Type="Reference.DialogType" Parameters="GetComponentParameters()" />
+            </div>
         </div>
-        <div class="modal-backdrop @Reference.Options.BackdropClass" @onclick="HandleBackdropClick"></div>
-    </div>
+    }
 </CascadingValue>
 
 @code {
@@ -73,9 +76,9 @@
 
     private string GetPositionClass() => Reference.Options.Position switch
     {
-        DialogPosition.Top => "modal-top",
-        DialogPosition.Bottom => "modal-bottom",
-        _ => "modal-middle"
+        DialogPosition.Top => "items-start pt-10",
+        DialogPosition.Bottom => "items-end pb-10",
+        _ => "items-center"
     };
 
     private string GetMaxWidthClass()

@@ -6,6 +6,7 @@ using Deneblab.BlazorDaisy.Areas.Template.App;
 using Deneblab.BlazorDaisy.Auth;
 using Deneblab.BlazorDaisy.Components;
 using Deneblab.BlazorDaisy.Components.Snackbar;
+using Deneblab.BlazorDaisy.Components.Dialog;
 using Deneblab.BlazorDaisy.Infrastructure.Logging;
 using Deneblab.BlazorDaisy.Infrastructure.Middleware;
 using Deneblab.BlazorDaisy.Navigation;
@@ -56,6 +57,9 @@ public class Program
 
         // Snackbar notification service (scoped per circuit)
         builder.Services.AddScoped<ISnackbarService, SnackbarService>();
+
+        // Dialog service (scoped per circuit)
+        builder.Services.AddScoped<IDialogService, DialogService>();
 
         // Configure authentication
         ConfigureAuthentication(builder);

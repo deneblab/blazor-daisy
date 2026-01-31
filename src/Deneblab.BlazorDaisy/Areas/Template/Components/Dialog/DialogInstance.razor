@@ -1,0 +1,99 @@
+@namespace Deneblab.BlazorDaisy.Components.Dialog
+
+<CascadingValue Value="this">
+    <div class="modal @(IsOpen ? "modal-open" : "") @GetPositionClass()" @onkeydown="HandleKeyDown" tabindex="-1">
+        <div class="modal-box @Reference.Options.DialogClass @GetMaxWidthClass()">
+            @if (!string.IsNullOrEmpty(Reference.Title) || Reference.Options.ShowCloseButton)
+            {
+                <div class="flex justify-between items-center mb-4">
+                    @if (!string.IsNullOrEmpty(Reference.Title))
+                    {
+                        <h3 class="font-bold text-lg">@Reference.Title</h3>
+                    }
+                    else
+                    {
+                        <span></span>
+                    }
+                    @if (Reference.Options.ShowCloseButton)
+                    {
+                        <button class="btn btn-sm btn-circle btn-ghost" @onclick="() => Close(DialogResult.Cancel())">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    }
+                </div>
+            }
+            <DynamicComponent Type="Reference.DialogType" Parameters="GetComponentParameters()" />
+        </div>
+        <div class="modal-backdrop @Reference.Options.BackdropClass" @onclick="HandleBackdropClick"></div>
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter, EditorRequired]
+    public DialogReference Reference { get; set; } = default!;
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<DialogResult> OnClose { get; set; }
+
+    public async Task Close(DialogResult result)
+    {
+        await OnClose.InvokeAsync(result);
+    }
+
+    public Task Cancel() => Close(DialogResult.Cancel());
+    public Task Ok() => Close(DialogResult.Ok());
+    public Task Ok<T>(T data) => Close(DialogResult.Ok(data));
+
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape" && Reference.Options.CloseOnEscapeKey)
+        {
+            _ = Close(DialogResult.Cancel());
+        }
+    }
+
+    private void HandleBackdropClick()
+    {
+        if (Reference.Options.CloseOnBackdropClick)
+        {
+            _ = Close(DialogResult.Cancel());
+        }
+    }
+
+    private Dictionary<string, object?> GetComponentParameters()
+    {
+        var parameters = new Dictionary<string, object?>(Reference.Parameters);
+        return parameters;
+    }
+
+    private string GetPositionClass() => Reference.Options.Position switch
+    {
+        DialogPosition.Top => "modal-top",
+        DialogPosition.Bottom => "modal-bottom",
+        _ => "modal-middle"
+    };
+
+    private string GetMaxWidthClass()
+    {
+        if (Reference.Options.FullWidth)
+            return "w-full max-w-full";
+
+        return Reference.Options.MaxWidth switch
+        {
+            "sm" => "max-w-sm",
+            "md" => "max-w-md",
+            "lg" => "max-w-lg",
+            "xl" => "max-w-xl",
+            "2xl" => "max-w-2xl",
+            "3xl" => "max-w-3xl",
+            "4xl" => "max-w-4xl",
+            "5xl" => "max-w-5xl",
+            _ => ""
+        };
+    }
+}

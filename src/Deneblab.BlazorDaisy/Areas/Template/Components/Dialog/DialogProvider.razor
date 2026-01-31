@@ -1,0 +1,50 @@
+@namespace Deneblab.BlazorDaisy.Components.Dialog
+@rendermode InteractiveServer
+@inject IDialogService DialogService
+@implements IDisposable
+
+@foreach (var dialog in _dialogs)
+{
+    <DialogInstance
+        Reference="dialog"
+        IsOpen="true"
+        OnClose="(result) => HandleClose(dialog.Id, result)" />
+}
+
+@code {
+    private readonly List<DialogReference> _dialogs = new();
+
+    protected override void OnInitialized()
+    {
+        DialogService.OnShow += HandleShow;
+        DialogService.OnClose += HandleCloseFromService;
+    }
+
+    private void HandleShow(DialogReference reference)
+    {
+        _dialogs.Add(reference);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleCloseFromService(Guid dialogId, DialogResult result)
+    {
+        HandleClose(dialogId, result);
+    }
+
+    private void HandleClose(Guid dialogId, DialogResult result)
+    {
+        var dialog = _dialogs.FirstOrDefault(d => d.Id == dialogId);
+        if (dialog != null)
+        {
+            _dialogs.Remove(dialog);
+            dialog.Close(result);
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        DialogService.OnShow -= HandleShow;
+        DialogService.OnClose -= HandleCloseFromService;
+    }
+}

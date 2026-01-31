@@ -1,0 +1,25 @@
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Dialogs
+@using Deneblab.BlazorDaisy.Components.Dialog
+
+<div class="py-4">
+    <p>@Message</p>
+</div>
+
+<div class="modal-action">
+    <button class="btn btn-ghost" @onclick="() => DialogInstance.Cancel()">@CancelText</button>
+    <button class="btn btn-primary" @onclick="() => DialogInstance.Ok(true)">@ConfirmText</button>
+</div>
+
+@code {
+    [CascadingParameter]
+    public DialogInstance DialogInstance { get; set; } = default!;
+
+    [Parameter]
+    public string Message { get; set; } = "Are you sure you want to proceed?";
+
+    [Parameter]
+    public string ConfirmText { get; set; } = "Yes";
+
+    [Parameter]
+    public string CancelText { get; set; } = "No";
+}

@@ -1,0 +1,49 @@
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Dialogs
+@using Deneblab.BlazorDaisy.Components.Dialog
+
+<div class="py-4 space-y-4">
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">Name</span>
+        </label>
+        <input type="text" @bind="Name" placeholder="Enter your name" class="input input-bordered" />
+    </div>
+    <div class="form-control">
+        <label class="label">
+            <span class="label-text">Email</span>
+        </label>
+        <input type="email" @bind="Email" placeholder="Enter your email" class="input input-bordered" />
+    </div>
+</div>
+
+<div class="modal-action">
+    <button class="btn btn-ghost" @onclick="() => DialogInstance.Cancel()">Cancel</button>
+    <button class="btn btn-primary" @onclick="Submit" disabled="@(!IsValid)">Submit</button>
+</div>
+
+@code {
+    [CascadingParameter]
+    public DialogInstance DialogInstance { get; set; } = default!;
+
+    [Parameter]
+    public string Name { get; set; } = "";
+
+    [Parameter]
+    public string Email { get; set; } = "";
+
+    private bool IsValid => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Email);
+
+    private void Submit()
+    {
+        if (IsValid)
+        {
+            DialogInstance.Ok(new FormData { Name = Name, Email = Email });
+        }
+    }
+
+    public class FormData
+    {
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+    }
+}

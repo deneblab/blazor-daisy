@@ -1,0 +1,18 @@
+@namespace Deneblab.BlazorDaisy.Areas.Example.Views.Dialogs
+@using Deneblab.BlazorDaisy.Components.Dialog
+
+<div class="py-4">
+    <p>@Message</p>
+</div>
+
+<div class="modal-action">
+    <button class="btn btn-primary" @onclick="() => DialogInstance.Ok()">OK</button>
+</div>
+
+@code {
+    [CascadingParameter]
+    public DialogInstance DialogInstance { get; set; } = default!;
+
+    [Parameter]
+    public string Message { get; set; } = "This is a simple dialog.";
+}
